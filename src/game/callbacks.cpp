@@ -66,7 +66,6 @@ void drag_switcher(Event event, void **event_provider) {
   }
   if (event.type == EventType::MouseButtonUp) {
     dragging = false;
-    is_mouse_was_moved = false;
   }
 }
 
