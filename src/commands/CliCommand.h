@@ -7,8 +7,9 @@
 
 #include <iostream>
 #include <sstream>
-#include <functional>
+//#include <functional>
 #include <utility>
+#include "command_callbacks.h"
 
 using namespace std;
 
@@ -16,9 +17,9 @@ class CliCommand {
  private:
   string command;
   string help;
-  function<void(stringstream &, void **)> callback;
+  CommandCallbacks::callback_type callback;
  public:
-  CliCommand(string command, string help, function<void(stringstream &, void **)> callback);
+  CliCommand(string command, string help, CommandCallbacks::callback_type callback);
 
   void print_help();
 

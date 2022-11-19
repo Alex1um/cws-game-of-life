@@ -4,10 +4,10 @@
 
 #include "CliCommand.h"
 
-CliCommand::CliCommand(string command, string help, function<void(stringstream &, void **)> callback) {
+CliCommand::CliCommand(string command, string help, CommandCallbacks::callback_type callback) {
 this->command = std::move(command);
 this->help = std::move(help);
-this->callback = std::move(callback);
+this->callback = callback;
 }
 
 void CliCommand::print_help() {
@@ -23,5 +23,7 @@ bool CliCommand::operator==(string &cmd) {
 }
 
 void CliCommand::execute(stringstream &ss, void **event_provider) {
-  callback(ss, event_provider);
+  this->callback(ss, event_provider);
 }
+
+

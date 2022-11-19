@@ -6,14 +6,14 @@
 #include "commands.h"
 #include "CliCommand.h"
 
-void command_dump(stringstream &ss, void **event_provider) {
+void CommandCallbacks::dump(stringstream &ss, void **event_provider) {
   string buf;
   if (!(ss >> buf)) throw "no file name to output";
   game.area.dump(buf.c_str());
   output_file(buf.c_str());
 }
 
-void command_tick(stringstream &ss, void **event_provider) {
+void CommandCallbacks::tick(stringstream &ss, void **event_provider) {
   int tiks;
   if (ss >> tiks) {
     for (; tiks > 0; tiks--) {
@@ -24,34 +24,34 @@ void command_tick(stringstream &ss, void **event_provider) {
   }
 }
 
-void command_exit(stringstream &ss, void **event_provider) {
+void CommandCallbacks::exit(stringstream &ss, void **event_provider) {
   throw_event(event_provider, Event{
       .type = EventType::Exit,
       .event = {},
   });
 }
 
-void command_resize(stringstream &ss, void **event_provider) {
+void CommandCallbacks::resize(stringstream &ss, void **event_provider) {
   int nx, ny;
   if (!(ss >> nx >> ny)) throw "wrong sizes";
   game.resize(nx, ny);
   game.full_update();
 }
 
-void command_rescale(stringstream &ss, void **event_provider) {
+void CommandCallbacks::rescale(stringstream &ss, void **event_provider) {
   float val;
   if (!(ss >> val)) throw "wrong value";
   scale = val;
   set_view_size(&game.screen, scale);
 }
 
-void command_help(stringstream &ss, void **event_provider) {
-  for (CliCommand &cmd : commands) {
+void CommandCallbacks::help(stringstream &ss, void **event_provider) {
+  for (CliCommand &cmd: commands) {
     cmd.print_help();
   }
 }
 
-void command_hotkeys(stringstream &ss, void **event_provider) {
+void CommandCallbacks::hotkeys(stringstream &ss, void **event_provider) {
   cout << "n - tick once" << endl
        << "r - reset size" << endl
        << "c - reset scale" << endl
