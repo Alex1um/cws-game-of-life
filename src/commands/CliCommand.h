@@ -9,25 +9,28 @@
 #include <sstream>
 //#include <functional>
 #include <utility>
-#include "command_callbacks.h"
+//#include "command_callbacks.h"
 
 using namespace std;
 
 class CliCommand {
  private:
+//  string command;
+//  string help;
+//  CommandCallbacks::callback_type callback;
+ protected:
   string command;
-  string help;
-  CommandCallbacks::callback_type callback;
- public:
-  CliCommand(string command, string help, CommandCallbacks::callback_type callback);
 
-  void print_help();
+ public:
+//  CliCommand();
+
+  virtual void print_help() = 0;
 
   bool is_it(string &cmd);
 
   bool operator==(string &cmd);
 
-  void execute(stringstream &ss, void **event_provider);
+  virtual void execute(stringstream &ss, void **event_provider) = 0;
 };
 
 #endif //GOL__COMMAND_H_

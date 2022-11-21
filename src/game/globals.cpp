@@ -14,4 +14,4 @@ bool dragging = false;
 double scale = 1;
 int rel_x = 0;
 int rel_y = 0;
-extern bool is_mouse_was_moved = false;
+bool is_mouse_was_moved = false;

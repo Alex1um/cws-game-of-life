@@ -7,7 +7,12 @@
 
 #include "CliCommand.h"
 #include <vector>
+#include <memory>
 
-extern vector<CliCommand> commands;
+using namespace std;
+
+extern vector<unique_ptr<CliCommand>> commands;
+
+extern void add_commands();
 
 #endif //GOL_SRC_COMMANDS_COMMANDS_H_

@@ -4,6 +4,7 @@
 
 #include "game.h"
 #include "globals.h"
+#include "../commands/commands.h"
 
 Game::Game(int sx, int sy, Rule alive, Rule revive) {
   scene = create_scene(sx, sy, 2);
@@ -18,6 +19,7 @@ Game::Game(int sx, int sy, Rule alive, Rule revive) {
       ids[i].push_back(create_object(&scene, i, j, 0, 0));
     }
   }
+  add_commands();
 
   ticks = 0;
   this->sx = sx;
@@ -27,9 +29,8 @@ Game::Game(int sx, int sy, Rule alive, Rule revive) {
 }
 
 void Game::load_area(const string_view &file_name) {
-  int nx, ny;
-  area.load(file_name, nx, ny);
-  resize(nx, ny);
+  pair<int, int> tmp = area.load(file_name);
+  resize(tmp.first, tmp.second);
   reset();
 }
 

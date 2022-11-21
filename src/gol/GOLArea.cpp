@@ -26,7 +26,7 @@ GOLArea::GOLArea(int sx,
   }
 }
 
-void GOLArea::load(const string_view &file_name, int &size_x, int &size_y) {
+pair<int, int> GOLArea::load(const string_view &file_name) {
   ifstream f;
   f.open(string(file_name));
   string line;
@@ -68,9 +68,10 @@ void GOLArea::load(const string_view &file_name, int &size_x, int &size_y) {
   for (size_t i = 0; i < xes.size(); i++) {
     cells[xes[i] + off_x][yes[i] + off_y].revive();
   }
-  size_x = nx;
-  size_y = ny;
+//  size_x = nx;
+//  size_y = ny;
   f.close();
+  return {nx, ny};
 }
 
 void GOLArea::null_cells() {

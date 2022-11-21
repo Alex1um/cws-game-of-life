@@ -142,3 +142,36 @@ int main(int argc, char *argv[]) {
 
   start_game();
 }
+
+class A {
+ public:
+  virtual void foo() = 0;
+  ~A() {}
+  A() {}
+};
+
+class B : public A {
+  void foo() override {
+    cout << "B!" << endl;
+  }
+};
+
+class C : public A {
+  void foo() override {
+    cout << "C!" << endl;
+  }
+};
+
+//#include <memory>
+//
+//vector<unique_ptr<A>> gl{
+//    unique_ptr<A>(new B()),
+//    unique_ptr<A>(new C()),
+//};
+//
+//int main() {
+//  gl.push_back(unique_ptr<A>(new B()));
+//  gl.push_back(unique_ptr<A>(new C()));
+//  gl[0]->foo();
+//  gl[1]->foo();
+//}

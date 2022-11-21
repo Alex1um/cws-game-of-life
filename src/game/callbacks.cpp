@@ -41,9 +41,9 @@ void on_command(Event event, void **event_provider) {
     return;
   }
   try {
-    for (CliCommand &cmd : commands) {
-      if (cmd == incmd) {
-        cmd.execute(ss, event_provider);
+    for (unique_ptr<CliCommand> &cmd : commands) {
+      if (*cmd == incmd) {
+        cmd->execute(ss, event_provider);
         return;
       }
     }

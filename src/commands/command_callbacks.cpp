@@ -6,14 +6,22 @@
 #include "commands.h"
 #include "CliCommand.h"
 
-void CommandCallbacks::dump(stringstream &ss, void **event_provider) {
+void CommandDump::execute(stringstream &ss, void **event_provider) {
   string buf;
   if (!(ss >> buf)) throw "no file name to output";
   game.area.dump(buf.c_str());
   output_file(buf.c_str());
 }
 
-void CommandCallbacks::tick(stringstream &ss, void **event_provider) {
+CommandDump::CommandDump() {
+  command = "dump";
+}
+
+void CommandDump::print_help() {
+  cout << "<file name> - output current game state" << endl;
+}
+
+void CommandTick::execute(stringstream &ss, void **event_provider) {
   int tiks;
   if (ss >> tiks) {
     for (; tiks > 0; tiks--) {
@@ -24,34 +32,82 @@ void CommandCallbacks::tick(stringstream &ss, void **event_provider) {
   }
 }
 
-void CommandCallbacks::exit(stringstream &ss, void **event_provider) {
+CommandTick::CommandTick() {
+  command = "tick";
+}
+
+void CommandTick::print_help() {
+  cout << "[n] - process 1(n) state(s) of the game" << endl;
+}
+
+void CommandExit::execute(stringstream &ss, void **event_provider) {
   throw_event(event_provider, Event{
       .type = EventType::Exit,
       .event = {},
   });
 }
 
-void CommandCallbacks::resize(stringstream &ss, void **event_provider) {
+CommandExit::CommandExit() {
+  command = "exit";
+}
+
+void CommandExit::print_help() {
+  cout << "- stop game" << endl;
+}
+
+void CommandResize::execute(stringstream &ss, void **event_provider) {
   int nx, ny;
   if (!(ss >> nx >> ny)) throw "wrong sizes";
   game.resize(nx, ny);
   game.full_update();
 }
 
-void CommandCallbacks::rescale(stringstream &ss, void **event_provider) {
+CommandResize::CommandResize() {
+  command = "resize";
+}
+
+void CommandResize::print_help() {
+  cout << "<width> <height> - resize game with given sizes of board" << endl;
+}
+
+void CommandRescale::execute(stringstream &ss, void **event_provider) {
   float val;
   if (!(ss >> val)) throw "wrong value";
   scale = val;
   set_view_size(&game.screen, scale);
 }
 
-void CommandCallbacks::help(stringstream &ss, void **event_provider) {
-  for (CliCommand &cmd: commands) {
-    cmd.print_help();
+CommandRescale::CommandRescale() {
+  command = "rescale";
+}
+
+void CommandRescale::print_help() {
+  cout << "<ratio: float> - scale display game" << endl;
+}
+
+CommandHelp::CommandHelp() {
+  command = "help";
+}
+
+void CommandHelp::print_help() {
+  cout << "- prints help information for existing commands" << endl;
+}
+
+void CommandHelp::execute(stringstream &ss, void **event_provider) {
+  for (unique_ptr<CliCommand> &cmd: commands) {
+    cmd->print_help();
   }
 }
 
-void CommandCallbacks::hotkeys(stringstream &ss, void **event_provider) {
+CommandHotkeys::CommandHotkeys() {
+  command = "hotkeys";
+}
+
+void CommandHotkeys::print_help() {
+  cout << "- prints information about hotkeys" << endl;
+}
+
+void CommandHotkeys::execute(stringstream &ss, void **event_provider) {
   cout << "n - tick once" << endl
        << "r - reset size" << endl
        << "c - reset scale" << endl

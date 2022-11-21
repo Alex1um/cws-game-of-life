@@ -26,7 +26,7 @@ class GOLArea {
           Rule revive_rules_set,
           string name);
 
-  void load(const string_view &file_name, int &size_x, int &size_y);
+  pair<int, int> load(const string_view &file_name);
 
   void null_cells();
 
