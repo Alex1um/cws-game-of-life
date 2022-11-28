@@ -9,7 +9,10 @@
 void CommandDump::execute(stringstream &ss, void **event_provider) {
   string buf;
   if (!(ss >> buf)) throw "no file name to output";
-  game.area.dump(buf.c_str());
+  ofstream out;
+  out.open(buf.c_str());
+  out << game;
+//  game.area.dump(buf.c_str());
   output_file(buf.c_str());
 }
 

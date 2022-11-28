@@ -26,9 +26,9 @@ GOLArea::GOLArea(int sx,
   }
 }
 
-pair<int, int> GOLArea::load(const string_view &file_name) {
-  ifstream f;
-  f.open(string(file_name));
+pair<int, int> GOLArea::load(istream &f) {
+//  ifstream f;
+//  f.open(string(file_name));
   string line;
   if (!getline(f, line).good() || !getline(f, line).good()) {
     throw "file too short";
@@ -70,7 +70,7 @@ pair<int, int> GOLArea::load(const string_view &file_name) {
   }
 //  size_x = nx;
 //  size_y = ny;
-  f.close();
+//  f.close();
   return {nx, ny};
 }
 
@@ -114,9 +114,9 @@ name = area.name;
 
 GOLArea::GOLArea() {}
 
-void GOLArea::dump(const char *file) {
-  ofstream f;
-  f.open(file);
+void GOLArea::dump(ostream &f) {
+//  ofstream f;
+//  f.open(file);
   f << "#Life 1.06" << endl;
   f << "#N " << this->name << endl;
   f << "#R B" << this->cells[0][0].get_revive_rules() << "/S"
@@ -128,7 +128,7 @@ void GOLArea::dump(const char *file) {
       }
     }
   }
-  f.close();
+//  f.close();
 }
 
 void GOLArea::resize(int nx, int ny) {
@@ -150,4 +150,14 @@ void GOLArea::resize(int nx, int ny) {
   } else {
     throw "sizes less than or equal to 0";
   }
+}
+
+ostream & operator<<(ostream &out, GOLArea &area) {
+  area.dump(out);
+  return out;
+}
+
+istream & operator>>(istream &in, GOLArea &area) {
+  area.load(in);
+  return in;
 }

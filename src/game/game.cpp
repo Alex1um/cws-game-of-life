@@ -28,10 +28,24 @@ Game::Game(int sx, int sy, Rule alive, Rule revive) {
   new_area = GOLArea(area);
 }
 
-void Game::load_area(const string_view &file_name) {
-  pair<int, int> tmp = area.load(file_name);
+void Game::load_area(istream &in) {
+  pair<int, int> tmp = area.load(in);
   resize(tmp.first, tmp.second);
   reset();
+}
+
+void Game::dump_area(ostream &out) {
+  out << area;
+}
+
+ostream & operator<<(ostream &out, Game &game) {
+  game.dump_area(out);
+  return out;
+}
+
+istream & operator>>(istream &in, Game &game) {
+  in >> game.area;
+  return in;
 }
 
 void Game::tick() {

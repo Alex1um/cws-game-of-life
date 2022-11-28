@@ -26,7 +26,15 @@ class GOLArea {
           Rule revive_rules_set,
           string name);
 
-  pair<int, int> load(const string_view &file_name);
+  pair<int, int> load(istream &in);
+
+  void dump(ostream &out);
+
+  friend ostream & operator<<(ostream &out, GOLArea &game);
+
+  friend istream & operator>>(istream &in, GOLArea &game);
+
+  void resize(int nx, int ny);
 
   void null_cells();
 
@@ -41,10 +49,6 @@ class GOLArea {
   GOLArea(GOLArea &area);
 
   GOLArea();
-
-  void dump(const char *file);
-
-  void resize(int nx, int ny);
 };
 
 #endif //GOL_SRC_GOL_GOLAREA_H_

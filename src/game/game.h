@@ -31,7 +31,13 @@ class Game {
 
   Game(int sx, int sy, Rule alive, Rule revive);
 
-  void load_area(const string_view &file_name);
+  void load_area(istream &in);
+
+ void dump_area(ostream &out);
+
+  friend ostream & operator<<(ostream &out, Game &game);
+
+  friend istream & operator>>(istream &in, Game &game);
 
   void tick();
 

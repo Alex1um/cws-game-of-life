@@ -100,7 +100,11 @@ int main(int argc, char *argv[]) {
   bool error_while_loading_input_file = false;
   if (!input_file.empty()) {
     try {
-      game.load_area(input_file);
+      ifstream in;
+      in.open(string(input_file));
+      in >> game;
+      in.close();
+//      game.load_area(input_file);
     } catch (const char *exc) {
       cout << "Error while loading area from args: " << exc << endl;
       error_while_loading_input_file = true;
@@ -133,7 +137,10 @@ int main(int argc, char *argv[]) {
 
     if (!output_file.empty()) {
       try {
-        game.area.dump(string(output_file).c_str());
+//        game.area.dump(string(output_file).c_str());
+        ofstream fout;
+        fout.open(string(output_file));
+        fout << game;
       } catch (const char *exc) {
         cout << "Exception while outputting file from args: " << exc << endl;
       }
@@ -142,36 +149,3 @@ int main(int argc, char *argv[]) {
 
   start_game();
 }
-
-class A {
- public:
-  virtual void foo() = 0;
-  ~A() {}
-  A() {}
-};
-
-class B : public A {
-  void foo() override {
-    cout << "B!" << endl;
-  }
-};
-
-class C : public A {
-  void foo() override {
-    cout << "C!" << endl;
-  }
-};
-
-//#include <memory>
-//
-//vector<unique_ptr<A>> gl{
-//    unique_ptr<A>(new B()),
-//    unique_ptr<A>(new C()),
-//};
-//
-//int main() {
-//  gl.push_back(unique_ptr<A>(new B()));
-//  gl.push_back(unique_ptr<A>(new C()));
-//  gl[0]->foo();
-//  gl[1]->foo();
-//}

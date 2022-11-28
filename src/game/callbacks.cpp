@@ -28,7 +28,10 @@ void on_input_file(Event event, void **event_provider) {
 //  game.area.load(path, nx, ny);
 //  game.resize(nx, ny);
 //  game.reset();
-  game.load_area(string_view(string(path)));
+  ifstream f;
+  f.open(path);
+  f >> game;
+//  game.load_area(string_view(string(path)));
 }
 
 void on_command(Event event, void **event_provider) {
